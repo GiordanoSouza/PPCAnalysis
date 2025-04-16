@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise Aprofundada de Concorrentes - Palavras-Chave B2B</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f9;
+            color: #333;
+        }
+        .container {
+            max-width: 1300px; /* Aumentado para mais espaço */
+            margin: 20px auto;
+            padding: 25px;
+            background-color: #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        header {
+            background: linear-gradient(to right, #005a8c, #003d5c); /* Gradiente azul */
+            color: #fff;
+            padding: 25px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+            margin: -25px -25px 25px -25px; /* Ajusta para cobrir o padding */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            font-weight: 600;
+        }
+        h2 {
+            color: #005a8c;
+            border-bottom: 3px solid #005a8c; /* Linha mais grossa */
+            padding-bottom: 8px;
+            margin-top: 35px;
+            font-size: 1.8em;
+            font-weight: 500;
+        }
+        h3 {
+            color: #003d5c; /* Azul mais escuro */
+            margin-top: 25px;
+            font-size: 1.4em;
+            font-weight: 500;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+        .card {
+            background-color: #fff;
+            padding: 25px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            transition: transform 0.2s ease-in-out;
+        }
+        .card:hover {
+             transform: translateY(-5px); /* Efeito sutil ao passar o mouse */
+        }
+        .card h3 {
+            margin-top: 0;
+            color: #005a8c;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .card p, .card li {
+            margin-bottom: 10px;
+            font-size: 0.98em;
+            color: #555;
+        }
+        .card ul {
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+        .card strong {
+            color: #111;
+            font-weight: 600;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px; /* Mais espaçamento */
+            text-align: left;
+            vertical-align: middle;
+        }
+        th {
+            background-color: #e9eff3;
+            font-weight: 600;
+            color: #333;
+            position: sticky; /* Cabeçalho fixo se a tabela rolar (precisa de container) */
+            top: 0;
+        }
+        tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        tr:hover {
+            background-color: #f1f5f8; /* Destaque suave ao passar o mouse */
+        }
+        .chart-container {
+            position: relative;
+            min-height: 350px; /* Altura mínima */
+            height: auto; /* Altura ajustável */
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            background-color: #fdfdfd;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            font-size: 0.8em;
+            font-weight: 500;
+            border-radius: 15px;
+            color: #fff;
+            margin: 2px;
+            vertical-align: middle;
+        }
+        .badge-high { background-color: #d9534f; } /* Vermelho */
+        .badge-medium { background-color: #f0ad4e; } /* Laranja */
+        .badge-low { background-color: #5cb85c; } /* Verde */
+        .badge-info { background-color: #5bc0de; } /* Azul claro */
+        .badge-b2b-direct { background-color: #005a8c; } /* Azul principal */
+        .badge-b2b-content { background-color: #347ab8; } /* Azul secundário */
+        .badge-partner { background-color: #7a6fca; } /* Roxo claro */
+        .badge-brand { background-color: #6c757d; } /* Cinza */
+        .badge-tech { background-color: #2a9d8f; } /* Verde água */
+        .badge-generic { background-color: #adb5bd; } /* Cinza claro */
+
+        .strategy-list li { margin-bottom: 15px; }
+        .strategy-list strong { color: #005a8c; }
+
+        .keyword-list li { display: inline-block; margin-right: 8px; background-color: #e9ecef; padding: 3px 8px; border-radius: 4px; font-size: 0.85em; margin-bottom: 5px;}
+
+        /* Estilo para rolagem horizontal em tabelas largas */
+        .table-responsive {
+            overflow-x: auto;
+            margin-top: 15px;
+            -webkit-overflow-scrolling: touch; /* Para iOS */
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            header h1 { font-size: 1.8em; }
+            h2 { font-size: 1.5em; }
+            h3 { font-size: 1.2em; }
+            .card { padding: 20px; }
+            th, td { padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Análise Aprofundada de Concorrentes - Palavras-Chave B2B</h1>
+        </header>
+
+        <section id="common-keywords">
+            <h2>1. Palavras-Chave em Comum</h2>
+            <div class="card">
+                <h3>Termos Disputados no Mercado B2B</h3>
+                <p>Diversos concorrentes focam em um conjunto similar de palavras-chave estratégicas para o público B2B, indicando áreas de alta competição e relevância.</p>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Palavra-Chave Comum</th>
+                                <th>Volume Estimado</th>
+                                <th>CPC Médio (USD)</th>
+                                <th>Concorrentes Notáveis (Exemplos)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>programa de bem estar nas empresas / programa de bem-estar nas empresas</td>
+                                <td>90</td>
+                                <td>$0.81</td>
+                                <td>Wellhub, Zenklub, Oriente-me</td>
+                            </tr>
+                             <tr>
+                                <td>psicologia para empresas</td>
+                                <td>90</td>
+                                <td>$0.77</td>
+                                <td>Zenklub, Oriente-me</td>
+                            </tr>
+                             <tr>
+                                <td>terapia para empresas</td>
+                                <td>30</td>
+                                <td>$0.37</td>
+                                <td>Wellhub, Zenklub</td>
+                            </tr>
+                             <tr>
+                                <td>bem estar no trabalho / bem-estar no trabalho</td>
+                                <td>590</td>
+                                <td>$0.19</td>
+                                <td>Wellhub, Oriente-me (implícito), Zenklub (implícito)</td>
+                            </tr>
+                            <tr>
+                                <td>saude nas empresas / saúde nas empresas</td>
+                                <td>30</td>
+                                <td>$0.29</td>
+                                <td>Zenklub</td>
+                            </tr>
+                             <tr>
+                                <td>atendimento psicológico empresarial</td>
+                                <td>10</td>
+                                <td>$0.00 (dados)</td>
+                                <td>Oriente-me, Starbem</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p><strong>Observação:</strong> A presença de múltiplos players nesses termos reforça a importância de estratégias de QVT (Qualidade de Vida no Trabalho) e saúde mental para o público corporativo.</p>
+            </div>
+        </section>
+
+        <section id="competitor-strategies">
+            <h2>2. Estratégia de Palavra-Chave por Concorrente</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Wellhub (Gympass)</h3>
+                    <ul class="strategy-list">
+                        <li><strong>Foco Principal:</strong> <span class="badge badge-brand">Marca</span> + <span class="badge badge-b2b-content">Conteúdo B2B (Bem-Estar)</span></li>
+                        <li><strong>Detalhes:</strong> Altíssimo volume em termos de marca (`gympass`, `wellhub`). Usa conteúdo extenso sobre burnout, saúde mental e QVT para atrair leads B2B. Forte presença em termos de academias parceiras.</li>
+                        <li><strong>Exemplos:</strong> `gympass`, `wellhub`, `bem estar no trabalho`, `programa de bem estar nas empresas`, `terapia para empresas`, `gympass bluefit`.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Telavita</h3>
+                     <ul class="strategy-list">
+                        <li><strong>Foco Principal:</strong> <span class="badge badge-brand">Marca</span> + <span class="badge badge-partner">Parcerias (Convênios)</span></li>
+                        <li><strong>Detalhes:</strong> Tráfego concentrado na marca e em buscas relacionadas a convênios específicos (Bradesco, Cassi). Menor foco aparente em SEO B2B genérico.</li>
+                        <li><strong>Exemplos:</strong> `telavita`, `psicologo bradesco saude`, `psiquiatra cassi`, `psicólogo online bradesco`.</li>
+                    </ul>
+                </div>
+                 <div class="card">
+                    <h3>Zenklub</h3>
+                     <ul class="strategy-list">
+                        <li><strong>Foco Principal:</strong> <span class="badge badge-b2b-direct">B2B Direto</span> + <span class="badge badge-b2b-content">Conteúdo B2B (Saúde Mental)</span></li>
+                        <li><strong>Detalhes:</strong> Estratégia B2B muito clara, ranqueando em 1º lugar para diversos termos B2B essenciais. Utiliza conteúdo sobre saúde mental, QVT e psicologia organizacional para atrair e converter empresas.</li>
+                        <li><strong>Exemplos:</strong> `psicologia para empresas`, `programa de bem estar nas empresas`, `artigo sobre saúde mental no trabalho`, `consultoria organizacional psicologia`.</li>
+                    </ul>
+                </div>
+                 <div class="card">
+                    <h3>Conexa Saúde</h3>
+                     <ul class="strategy-list">
+                        <li><strong>Foco Principal:</strong> <span class="badge badge-partner">Parcerias (Convênios)</span> + <span class="badge badge-generic">Genérico (Acesso)</span></li>
+                        <li><strong>Detalhes:</strong> Similar à Telavita, com forte dependência de tráfego vindo de parcerias (Amil, Porto Seguro, Unimed). Também presente em termos de acesso rápido/gratuito. Legado da Psicologia Viva influencia.</li>
+                        <li><strong>Exemplos:</strong> `psicologo amil`, `consulta medica gratuita`, `neuropediatra online grátis`, `psicologia viva porto seguro`.</li>
+                    </ul>
+                </div>
+                 <div class="card">
+                    <h3>Oriente-me</h3>
+                     <ul class="strategy-list">
+                        <li><strong>Foco Principal:</strong> <span class="badge badge-brand">Marca</span> + <span class="badge badge-b2b-direct">B2B Direto (QVT)</span></li>
+                        <li><strong>Detalhes:</strong> Boa presença em termos B2B ligados a Qualidade de Vida no Trabalho e gestão de saúde corporativa, além da marca.</li>
+                        <li><strong>Exemplos:</strong> `orienteme login`, `projeto de qualidade de vida no trabalho`, `programa de bem-estar no trabalho`.</li>
+                    </ul>
+                </div>
+                 <div class="card">
+                    <h3>Rapidoc</h3>
+                      <ul class="strategy-list">
+                        <li><strong>Foco Principal:</strong> <span class="badge badge-generic">Genérico (Acesso)</span> + <span class="badge badge-tech">B2B (Tecnologia/Plataforma)</span></li>
+                        <li><strong>Detalhes:</strong> Posiciona-se tanto para o usuário final (acesso rápido/online) quanto para o mercado B2B com foco técnico (white label, API, precificação).</li>
+                        <li><strong>Exemplos:</strong> `médico 24 horas online`, `falar com médico online grátis`, `empresas de telemedicina no brasil`, `white label telehealth platform`, `telehealth api`.</li>
+                    </ul>
+                </div>
+                 <div class="card">
+                    <h3>Starbem</h3>
+                     <ul class="strategy-list">
+                        <li><strong>Foco Principal:</strong> <span class="badge badge-info">Nicho/Limitado</span></li>
+                        <li><strong>Detalhes:</strong> Dados limitados, mas sugerem foco em nichos específicos (NR-1, saúde ocupacional) ou presença de SEO ainda em desenvolvimento.</li>
+                        <li><strong>Exemplos:</strong> `o que quer dizer a nr 1`, `atendimento psicológico empresarial`, `quais os treinamentos da nr-1`.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="landing-pages">
+            <h2>3. Análise de Landing Pages (Estimativa Revisada)</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Número Estimado de Landing Pages Únicas (Revisado)</h3>
+                    <div class="chart-container">
+                        <canvas id="landingPageChart"></canvas> <!-- O ID do canvas permanece o mesmo -->
+                    </div>
+                    <p><strong>Importante:</strong> Esta é uma estimativa revisada baseada <strong>exclusivamente</strong> nas URLs presentes nos dados fornecidos e em filtros para excluir páginas genéricas (login, app, perfis). O número real de LPs de cada concorrente pode ser maior.</p>
+                </div>
+                 <div class="card">
+                    <h3>Observações sobre Landing Pages (Revisado)</h3>
+                    <ul>
+                        <li><strong>Wellhub:</strong> Continua com o maior número de LPs estimadas, mesmo com filtros, indicando alta diversidade de campanhas B2B e de conteúdo (`/lp/`, `/companies/`).</li>
+                        <li><strong>Zenklub:</strong> Número menor e mais focado, concentrado em páginas B2B (`/site/empresas-oferta`, `/site/enterprise-oferta`) e campanhas temáticas (`/site/janeiro-branco/`, `/site/epidesaudemental`). Reflete a contagem que você validou.</li>
+                         <li><strong>Telavita:</strong> Contagem reduzida após filtros, focando em páginas de conteúdo (`conteudo.telavita...`) e a home (`www.telavita.com.br`).</li>
+                         <li><strong>Conexa Saúde:</strong> Contagem reduzida, focando em páginas de parcerias/pacientes (`parcerias.conexa...`, `www.conexasaude.com.br/pacientes/`) e a página da Psicologia Viva (`site.conexa.../psicologia-viva...`).</li>
+                         <li><strong>Oriente-me:</strong> Foco principal na LP B2B (`/plataforma-gestao-saude-corporativa/`).</li>
+                         <li><strong>Rapidoc:</strong> Usa principalmente a home page (`rapidocbrasil.com.br/`) para os termos mapeados.</li>
+                         <li><strong>Starbem:</strong> Pouquíssimas LPs identificadas (`/lp/`).</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+         <section id="keyword-opportunities">
+            <h2>4. Oportunidades de Palavras-Chave</h2>
+             <div class="card">
+                <h3>Termos com Potencial (Volume x Custo x Dificuldade)</h3>
+                <p>Identificamos palavras-chave com um bom equilíbrio entre volume de pesquisa mensal, baixo custo por clique (CPC) e baixa dificuldade de ranqueamento orgânico (SEO), representando potenciais oportunidades de aquisição de tráfego qualificado a um custo menor.</p>
+                 <div class="table-responsive">
+                     <table>
+                        <thead>
+                            <tr>
+                                <th>Palavra-Chave Oportunidade</th>
+                                <th>Volume Estimado</th>
+                                <th>CPC (USD)</th>
+                                <th>Dificuldade SEO</th>
+                                <th>Notas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>bem estar no trabalho</td>
+                                <td>590</td>
+                                <td>$0.19 <span class="badge badge-low">Baixo</span></td>
+                                <td>9 <span class="badge badge-low">Baixa</span></td>
+                                <td>Bom volume, custo e dificuldade baixos. Relevante para B2B.</td>
+                            </tr>
+                             <tr>
+                                <td>como promover o bem estar no trabalho</td>
+                                <td>50</td>
+                                <td>$0.12 <span class="badge badge-low">Muito Baixo</span></td>
+                                <td>7 <span class="badge badge-low">Muito Baixa</span></td>
+                                <td>Intenção clara, custo e dificuldade muito baixos. Ideal para conteúdo.</td>
+                            </tr>
+                             <tr>
+                                <td>saude nas empresas</td>
+                                <td>30</td>
+                                <td>$0.29 <span class="badge badge-low">Baixo</span></td>
+                                <td>4 <span class="badge badge-low">Muito Baixa</span></td>
+                                <td>Termo B2B específico, custo e dificuldade muito baixos.</td>
+                            </tr>
+                            <tr>
+                                <td>dicas de bem estar no trabalho</td>
+                                <td>30</td>
+                                <td>$0.20 <span class="badge badge-low">Baixo</span></td>
+                                <td>7 <span class="badge badge-low">Muito Baixa</span></td>
+                                <td>Similar a "como promover...", ideal para conteúdo prático. (Dados Zenklub)</td>
+                            </tr>
+                            <tr>
+                                <td>artigo sobre saúde mental no trabalho</td>
+                                <td>90</td>
+                                 <td>$0.15 <span class="badge badge-low">Muito Baixo</span></td>
+                                <td>6 <span class="badge badge-low">Muito Baixa</span></td>
+                                <td>Bom volume para nicho, custo e dificuldade baixos. Ideal para conteúdo de blog/autoridade. (Dados Zenklub)</td>
+                            </tr>
+                             <tr>
+                                <td>telemedicina</td>
+                                <td>40,500</td>
+                                <td>$0.28 <span class="badge badge-low">Baixo</span></td>
+                                <td>56 <span class="badge badge-medium">Média</span></td>
+                                <td>Volume altíssimo com CPC baixo, mas dificuldade de SEO é um desafio. Exige investimento.</td>
+                            </tr>
+                             <tr>
+                                <td>empresas de telemedicina no brasil</td>
+                                <td>20</td>
+                                <td>$0.31 <span class="badge badge-low">Baixo</span></td>
+                                <td>14 <span class="badge badge-low">Baixa</span></td>
+                                <td>Termo B2B direto, volume baixo mas dificuldade e CPC razoáveis.</td>
+                            </tr>
+                             <tr>
+                                <td>atendimento psicológico empresarial</td>
+                                <td>10</td>
+                                <td>$0.00 <span class="badge badge-low">Muito Baixo</span></td>
+                                <td>6 <span class="badge badge-low">Muito Baixa</span></td>
+                                <td>Termo B2B específico, volume baixo mas custo e dificuldade muito baixos.</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <p><strong>Recomendação:</strong> Priorizar a criação de conteúdo e otimização SEO para os termos com baixa dificuldade (`bem estar no trabalho`, `como promover...`, `saude nas empresas`, `artigo sobre...`, `atendimento psicológico...`). Avaliar campanhas PPC de baixo custo para `bem estar no trabalho` e `telemedicina` (com segmentação cuidadosa).</p>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // --- INÍCIO DA FUNÇÃO countUniqueUrls REVISADA ---
+        function countUniqueUrls(csvDataString) {
+            const lines = csvDataString.trim().split('\n');
+            if (lines.length <= 1) return 0;
+
+            const urls = new Set();
+            const urlIndex = lines[0].split(',').indexOf('URL');
+
+            if (urlIndex === -1) return 0;
+
+            // Caminhos ou inícios de caminhos a serem EXCLUÍDOS da contagem de LPs únicas
+            const excludedPatterns = [
+                '/criar-conta',
+                '/login',
+                '/search', // Exclui páginas genéricas de busca
+                '/psicologos/', // Exclui perfis individuais
+                '/medicos/', // Exclui perfis individuais
+                'app.' // Exclui subdomínios de aplicativos (ex: app.telavita)
+            ];
+
+            for (let i = 1; i < lines.length; i++) {
+                 // Tratamento básico para evitar erros com vírgulas dentro de campos (não ideal, mas funciona para URLs simples)
+                 const columns = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+
+                if (columns.length > urlIndex && columns[urlIndex]) {
+                    let urlString = columns[urlIndex].trim().replace(/^"|"$/g, ''); // Limpa aspas se houver
+
+                    if (!urlString || urlString.length === 0) continue;
+
+                    try {
+                        const urlObj = new URL(urlString);
+                        const baseUrl = urlObj.origin + urlObj.pathname;
+                        const domain = urlObj.hostname.toLowerCase();
+                        const path = urlObj.pathname.toLowerCase();
+
+                        let exclude = false;
+                         if (excludedPatterns.some(pattern => {
+                            if (pattern.startsWith('.') && domain.endsWith(pattern)) return true; // Verifica terminação de domínio/subdomínio
+                            if (!pattern.startsWith('.') && path.startsWith(pattern)) return true; // Verifica início do caminho
+                            if (domain.startsWith(pattern)) return true; // Verifica início do domínio/subdomínio
+                            return false;
+                         })) {
+                            exclude = true;
+                        }
+
+                        if (!exclude) {
+                            const cleanedUrl = (baseUrl.endsWith('/') && baseUrl.length > urlObj.origin.length + 1) ? baseUrl.slice(0, -1) : baseUrl;
+                            urls.add(cleanedUrl);
+                        }
+                    } catch (e) {
+                         // Ignora URLs inválidas
+                        continue;
+                    }
+                }
+            }
+            return urls.size;
+        }
+        // --- FIM DA FUNÇÃO countUniqueUrls REVISADA ---
+
+        // ============================================================
+        // COLE OS DADOS CSV DE CADA CONCORRENTE AQUI ABAIXO
+        // ============================================================
+
+        const wellhubData = `alavra-chave,Dificuldade,Posição,Posição anterior,Volume de pesquisa,Intenção de pesquisa,Bloquear,CPC,Concorrência,URL,Tráfego,Partilha de tráfego,Custo de tráfego
+gympass,65,1,,450000,I,top,0.15,0.39,https://wellhub.com/pt-br/,31995,65.27,4799.25
+wellhub,79,1,1,90500,"L, N",top,0.46,0.2,https://wellhub.com/pt-br/,6434,13.13,2959.89
+gympass planos,64,1,,60500,I,top,0.11,0.46,https://wellhub.com/pt-br/employees/,4301,8.77,473.17
+gym pass,72,1,,40500,I,top,0.15,0.39,https://wellhub.com/pt-br/,2879,5.87,431.93
+gympass academias,64,1,,22200,I,local_pack,0.12,0.31,https://wellhub.com/pt-br/employees/,0,0,0
+academia gympass,67,1,,22200,"L, C",top,0.12,0.31,https://wellhub.com/pt-br/employees/,1578,3.22,189.41
+planos gympass,64,2,1,14800,I,bottom,0.12,0.25,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0
+planos gympass,64,1,,14800,I,top,0.12,0.25,https://wellhub.com/pt-br/employees/,1052,2.15,126.27
+gympass o que é,62,1,1,12100,I,bottom,0.11,0.12,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0
+como funciona o gympass,61,1,1,9900,I,local_pack,0.1,0.25,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0
+plano gympass,47,1,,2400,I,bottom,0.11,0.37,https://wellhub.com/pt-br/employees/,0,0,0
+plano de academia,39,1,,2400,I,bottom,0.17,0.55,https://wellhub.com/pt-br/lp/bem-estar-ilimitado-sempre/,0,0,0
+como tirar o cansaço do corpo e da mente,5,3,,590,I,local_pack,0.12,0.22,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+bem estar no trabalho,9,1,,590,I,bottom,0.19,0.19,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+gympass bluefit,12,1,1,590,I,local_pack,0.13,0.34,https://wellhub.com/pt-br/employees/,0,0,0
+academias gympass perto de mim,9,1,,590,"L, C",top,0.12,0.23,https://wellhub.com/pt-br/employees/,41,0.08,05.03
+gympass login empresa,12,1,,590,I,top,0.18,0.15,https://wellhub.com/pt-br/companies/,41,0.08,7.55
+meu trabalho está me deixando doente o que fazer,16,2,,590,I,local_pack,0.1,0.09,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+gympass onde aceita,9,1,,590,I,top,0.14,0.2,https://wellhub.com/pt-br/employees/,41,0.08,5.87
+gympass 99,8,1,,540,I,top,0.29,0.17,https://wellhub.com/pt-br/employees/,38,0.08,11.13
+plano silver gympass,7,1,,500,I,local_pack,0.13,0.15,https://wellhub.com/pt-br/employees/,0,0,0
+como tratar a sindrome de burnout,28,2,,480,I,local_pack,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+beneficio para funcionarios,4,4,,480,I,bottom,1.72,0.71,https://wellhub.com/pt-br/companies/,0,0,0
+gympass rj,7,1,,480,I,top,0.1,0.28,https://wellhub.com/pt-br/companies/,34,0.07,3.41
+palestra para empresas,4,3,,480,"L, C",top,01.06,0.66,https://wellhub.com/pt-br/companies/,10,0.02,11.14
+adicionar dependente gympass,6,1,,480,I,top,0.43,0.14,https://wellhub.com/pt-br/employees/,34,0.07,14.68
+skyfit gympass,7,1,,480,I,top,0.2,0.15,https://wellhub.com/pt-br/employees/,34,0.07,6.83
+gympass valores,7,1,,440,I,top,0.1,0.23,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,31,0.06,3.13
+gympass academia,6,2,,390,I,bottom,0.12,0.31,https://wellhub.com/pt-br/companies/,0,0,0
+gympass academia,6,1,,390,I,top,0.12,0.31,https://wellhub.com/pt-br/employees/,27,0.06,3.33
+panobianco gympass,10,1,,390,I,bottom,0.24,0.13,https://wellhub.com/pt-br/employees/,0,0,0
+como cadastrar empresa no gympass,6,1,1,390,I,local_pack,0.45,0.51,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0
+gympass gold valor,6,1,,390,I,bottom,0.11,0.13,https://wellhub.com/pt-br/companies/,0,0,0
+gympass 99 motorista,12,1,,390,I,top,0.25,0.16,https://wellhub.com/pt-br/employees/,27,0.06,6.93
+natação gympass,8,1,1,320,"L, C",local_pack,0.14,0.2,https://wellhub.com/pt-br/employees/,0,0,0
+gympass oab sp,11,1,,320,I,bottom,0.26,0.17,https://wellhub.com/pt-br/employees/,0,0,0
+teste burnout pdf,6,1,,320,I,bottom,0.16,0.1,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+gympass panobianco,10,1,,320,I,top,0.18,0.21,https://wellhub.com/pt-br/employees/,22,0.04,4.1
+como funciona o gympass para a empresa,6,1,2,320,I,local_pack,0.35,0.41,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0
+gympass brasil,6,1,,320,I,top,0.16,0.38,https://wellhub.com/pt-br/,22,0.04,3.64
+gympass particular,7,1,,320,I,bottom,0.11,0.37,https://wellhub.com/pt-br/employees/,0,0,0
+oab gympass,7,1,,320,I,bottom,0.34,0.09,https://wellhub.com/pt-br/employees/,0,0,0
+skyfit aceita gympass,8,1,,320,I,local_pack,0.26,0.08,https://wellhub.com/pt-br/employees/,0,0,0
+como funciona gympass,6,1,1,290,I,local_pack,0.1,0.26,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0
+engajamento de equipes,6,3,,260,I,top,0.06,0.4,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,5,0.01,0.34
+saude corporativa,3,2,,260,"L, C",local_pack,0.38,0.46,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+gympass planos de saude,10,1,,260,I,bottom,0.25,0.26,https://wellhub.com/pt-br/employees/,0,0,0
+gympass selfit,11,1,1,260,I,top,0.16,0.33,https://wellhub.com/pt-br/employees/,18,0.04,2.96
+gympass rede credenciada,7,1,,260,I,top,0.19,0.2,https://wellhub.com/pt-br/employees/,18,0.04,3.51
+gympass pessoa juridica,5,1,1,260,I,local_pack,0.24,0.53,https://wellhub.com/pt-br/companies/,0,0,0
+contratar gympass,6,1,,260,I,local_pack,0.18,0.56,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0
+contratar gympass,6,3,,260,I,bottom,0.18,0.56,https://wellhub.com/pt-br/employees/,0,0,0
+motivação para equipes de trabalho,7,3,,210,I,top,0.14,0.2,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,4,0.01,0.64
+escala de burnout,7,1,,210,I,bottom,0.01,0.11,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+burnout sintomas e causas,27,1,,210,I,local_pack,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+o que fazer para melhorar a saúde mental,18,1,,210,I,local_pack,0.08,0.4,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+amil gympass,8,1,,210,I,bottom,0.24,0.11,https://wellhub.com/pt-br/employees/,0,0,0
+gympass banco do brasil,12,1,,210,I,bottom,0.39,0.14,https://wellhub.com/pt-br/employees/,0,0,0
+gympass sem empresa,8,1,,190,I,bottom,0.11,0.42,https://wellhub.com/pt-br/employees/,0,0,0
+desconto gympass,5,1,,170,I,top,0.17,0.11,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,12,0.02,02.06
+promo gympass,5,1,,170,I,top,0.16,0.28,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,12,0.02,1.93
+como tratar estresse emocional,18,2,,170,I,local_pack,0.05,0.6,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+promoções gympass,4,1,,170,I,bottom,0.16,0.28,https://wellhub.com/pt-br/employees/,0,0,0
+como faz para ter gympass,7,1,,170,I,local_pack,0.11,0.39,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0
+gympass joinville,8,1,,170,I,top,0.1,0.27,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,12,0.02,1.21
+academia gaviões gympass,9,1,,170,I,top,0.23,0.16,https://wellhub.com/pt-br/employees/,12,0.02,2.78
+plano de academia para empresas,17,1,1,170,I,top,0.84,0.7,https://wellhub.com/pt-br/companies/,12,0.02,10.16
+gympass campinas,6,1,,170,"I, N",top,0.13,0.36,https://wellhub.com/pt-br/companies/,12,0.02,1.57
+plano silver gympass academias,5,1,,170,I,local_pack,0.11,0.18,https://wellhub.com/pt-br/employees/,0,0,0
+gympass para cnpj,7,1,,170,I,local_pack,0.18,0.53,https://wellhub.com/pt-br/companies/,0,0,0
+ifeel gympass,7,1,,170,I,local_pack,0.32,0.11,https://wellhub.com/pt-br/employees/,0,0,0
+estresse no trabalho como evitar,14,1,,140,I,top,0.02,0.32,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,9,0.02,0.2
+ansiedade no ambiente de trabalho,4,3,,140,I,local_pack,0.14,0.25,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+questionario burnout,14,1,,140,I,top,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,9,0.02,0
+contorno do corpo gympass,8,1,,140,I,top,0.07,0.2,https://wellhub.com/pt-br/employees/,9,0.02,0.7
+plano de ação para melhorar o desempenho da equipe,4,2,,140,I,top,0.2,0.51,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,4,0.01,0.84
+pratique gympass,7,1,,140,I,bottom,0.14,0.17,https://wellhub.com/pt-br/employees/,0,0,0
+planos de academias,26,2,,120,I,top,0.17,0.55,https://wellhub.com/pt-br/lp/bem-estar-ilimitado-sempre/,3,0.01,0.61
+gympass rj planos,5,1,,110,I,top,0.14,0.4,https://wellhub.com/pt-br/companies/,7,0.01,01.09
+gympass academias conveniadas,9,1,1,110,"L, C",top,0.15,0.11,https://wellhub.com/pt-br/employees/,7,0.01,1.17
+empresas com gympass,6,1,,110,I,top,0.26,0.32,https://wellhub.com/pt-br/companies/,7,0.01,02.03
+empresas com gympass,6,3,,110,I,bottom,0.26,0.32,https://wellhub.com/pt-br/employees/,0,0,0
+atividades para saude mental,6,2,2,90,I,bottom,0.14,0.05,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+como ser um bom lider de equipe pdf,4,4,,90,I,top,0.14,0.63,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,1,0,0.25
+como acabar com o cansaço mental,8,3,3,90,I,bottom,0.01,0.48,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+gympass universidades,6,1,1,90,I,top,0.13,0.19,https://wellhub.com/pt-br/employees/,6,0.01,0.83
+como lutar contra a depressão,13,1,1,90,I,local_pack,0.15,0.7,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+promoção de funcionario,3,2,2,90,I,top,0,0.01,https://wellhub.com/pt-br/companies/,2,0,0
+gympass entrar com cpf,7,1,1,90,I,top,0.16,0.09,https://wellhub.com/pt-br/companies/,6,0.01,01.02
+gympass df planos,7,1,1,90,I,local_pack,0.13,0.41,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0
+academia em valinhos preços,3,2,2,90,I,top,0.13,0.21,https://wellhub.com/pt-br/lp/bem-estar-ilimitado-sempre/,2,0,0.35
+benefício academia empresa,4,2,4,90,I,top,0.67,0.73,https://wellhub.com/pt-br/companies/,2,0,1.82
+academias credenciadas gympass,9,1,1,90,I,top,0.13,0.25,https://wellhub.com/pt-br/employees/,6,0.01,0.83
+programa de bem estar nas empresas,4,1,1,90,I,top,0.81,0.66,https://wellhub.com/pt-br/companies/,6,0.01,5.18
+programa de bem-estar nas empresas,4,1,1,90,I,top,0.81,0.66,https://wellhub.com/pt-br/companies/,6,0.01,5.18
+gympass basic academias,9,1,1,90,I,top,0.14,0.23,https://wellhub.com/pt-br/employees/,6,0.01,0.9
+pilates pelo gympass,6,1,1,90,"L, C",top,0.13,0.15,https://wellhub.com/pt-br/employees/,6,0.01,0.83
+inventário de burnout de maslach pdf,7,1,1,90,I,bottom,0.35,0.1,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+quais sintomas de burnout,34,3,3,90,I,top,0.01,0.61,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,1,0,0.02
+esgotamento físico e mental,17,1,1,80,I,bottom,0.01,0.11,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+competition gympass,6,1,1,70,I,bottom,0.11,0.26,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0
+sindrome de burnout tratamento,20,2,2,70,I,top,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,2,0,0
+tratamento sindrome de burnout,20,1,1,70,I,bottom,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+sintomas da sindrome de burnout,34,2,2,70,I,local_pack,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+gympass cadastro academia,5,2,2,70,I,top,0.22,0.52,https://wellhub.com/pt-br/employees/,2,0,0.46
+gympass crossfit,6,1,1,70,I,bottom,0.19,0.23,https://wellhub.com/pt-br/employees/,0,0,0
+exemplos de ações de engajamento,4,3,,70,I,top,0.1,0.39,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,1,0,0.15
+gympass argentina,7,1,1,70,"L, C",bottom,0.21,0.14,https://wellhub.com/pt-br/employees/,0,0,0
+weburn gympass,9,1,,70,I,top,0.28,0.28,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,4,0.01,1.39
+como funciona o plano gympass,6,1,1,70,I,top,0.12,0.26,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,4,0.01,0.6
+quais são as consequências da síndrome de burnout,24,1,1,70,I,local_pack,0.01,0.17,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+qual plano gympass aceita panobianco,8,2,2,70,I,bottom,0.22,0.09,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0
+qual plano gympass aceita panobianco,8,1,1,70,I,local_pack,0.22,0.09,https://wellhub.com/pt-br/employees/,0,0,0
+dinâmica sobre estresse no trabalho,7,2,,70,I,local_pack,0,0.06,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+academia gaviões gympass plano,12,1,1,70,"L, C",top,0.21,0.16,https://wellhub.com/pt-br/employees/,4,0.01,01.05
+corridinhas para vendedores,4,3,3,70,I,top,0.18,0.28,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,1,0,0.28
+proposta de ginástica laboral para empresa,4,3,,70,I,top,0.14,0.36,https://wellhub.com/pt-br/companies/,1,0,0.21
+melhores benefícios de empresas,6,1,1,70,I,top,0.24,0.56,https://wellhub.com/pt-br/companies/,4,0.01,1.2
+cadastro gympass empresa,6,1,1,70,I,top,0.32,0.67,https://wellhub.com/pt-br/employees/,4,0.01,1.59
+cadastro gympass 99,8,1,,70,"I, N",top,0.27,0.19,https://wellhub.com/pt-br/employees/,4,0.01,1.34
+saúde e bem-estar no trabalho pdf,6,1,,70,I,top,0.21,0.09,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,4,0.01,01.05
+gympass black friday,6,1,1,70,I,top,0,0,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,4,0.01,0
+gympass black friday,6,2,2,70,I,bottom,0,0,https://wellhub.com/pt-br/employees/,0,0,0
+gympass uberaba,7,1,1,70,"L, C",top,0.12,0.1,https://wellhub.com/pt-br/employees/,4,0.01,0.6
+gympass vale,11,1,1,70,I,top,0.14,0.2,https://wellhub.com/pt-br/employees/,4,0.01,0.7
+rede d or tem gympass,11,1,1,70,I,bottom,0.27,0.03,https://wellhub.com/pt-br/companies/,0,0,0
+como se cadastrar no gympass pela empresa,7,1,1,70,I,top,0.27,0.4,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,4,0.01,1.34
+ticket gympass,9,1,,70,I,top,0.33,0.3,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,4,0.01,1.64
+gympass corporativo,9,1,1,50,I,top,0.58,0.57,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,3,0.01,02.06
+beneficios salariais,5,5,5,50,I,bottom,0.48,0.31,https://wellhub.com/pt-br/companies/,0,0,0
+como não ser estressada,12,1,,50,I,top,0.07,0.45,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,3,0.01,0.25
+estresse o que fazer,21,2,2,50,I,local_pack,0.02,0.33,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+gympass 3 meses gratis,4,1,1,50,I,top,0.21,0.2,https://wellhub.com/pt-br/employees/,3,0.01,0.75
+como tratar o estresse cronico,16,2,2,50,I,local_pack,0.06,0.63,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+novidades segurança do trabalho,8,1,1,50,I,top,0.09,0.49,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,3,0.01,0.32
+qualidade de vida empresa,17,2,2,50,I,local_pack,0.2,0.14,https://wellhub.com/pt-br/companies/,0,0,0
+quanto custa para a empresa o gympass,6,1,1,50,I,top,0.42,0.51,https://wellhub.com/pt-br/companies/,3,0.01,1.5
+quais os melhores benefícios para funcionários,4,7,,50,I,bottom,0.79,0.71,https://wellhub.com/pt-br/companies/,0,0,0
+alto nível de estresse o que fazer,14,1,1,50,I,local_pack,0.04,0.47,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+gympass manaus planos,9,1,,50,I,top,0.18,0.34,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,3,0.01,0.64
+reunião motivacional equipe,7,2,2,50,I,top,0.13,0.56,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,1,0,0.2
+gympass online,6,1,,50,I,top,0.14,0.23,https://wellhub.com/pt-br/,3,0.01,0.5
+gympass online,6,2,,50,I,bottom,0.14,0.23,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0
+gympass sete lagoas,6,1,1,50,I,top,0.14,0.15,https://wellhub.com/pt-br/employees/,3,0.01,0.5
+como promover o bem estar no trabalho,7,3,3,50,I,top,0.12,0.36,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,1,0,0.13
+ações de engajamento de equipe,9,2,2,50,I,top,0.22,0.76,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,1,0,0.33
+como melhorar o bem-estar no ambiente laboral,9,3,,50,I,local_pack,0.14,0.2,https://wellhub.com/pt-br/companies/,0,0,0
+porto seguro gympass,4,1,1,50,I,bottom,0.24,0.26,https://wellhub.com/pt-br/employees/,0,0,0
+evolve gympass,7,1,1,50,"I, N",top,0.17,0.13,https://wellhub.com/pt-br/search/,0,0,0
+evolve gympass,7,1,1,50,"I, N",top,0.17,0.13,https://wellhub.com/pt-br/employees/,3,0.01,0.61
+como evitar a síndrome de burnout,12,1,1,50,I,top,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,3,0.01,0
+como vencer o cansaço mental,7,2,2,50,I,bottom,0.01,0.45,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+projeto de atendimento psicológico em empresas,11,1,4,50,I,local_pack,0,0,https://wellhub.com/pt-br/companies/,0,0,0
+gympass account,13,1,1,50,I,bottom,0.21,0.1,https://wellhub.com/pt-br/employees/,0,0,0
+gympass psicologia viva,10,1,1,50,I,bottom,0,0,https://wellhub.com/pt-br/employees/,0,0,0
+gympass planos valores,7,1,1,50,"I, N",local_pack,0.13,0.31,https://wellhub.com/pt-br/plans-pricing/,0,0,0
+gympass planos valores,7,1,1,50,"I, N",local_pack,0.13,0.31,https://wellhub.com/pt-br/employees/,0,0,0
+gympass dependente pode ter plano diferente,5,1,1,50,I,bottom,0,0.03,https://wellhub.com/pt-br/employees/,0,0,0
+como promover a saúde mental,18,3,3,50,I,bottom,0.01,0.14,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+dinamicas motivacionais para equipe de vendas,6,1,1,40,I,top,0.17,0.53,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,2,0,0.48
+plano de ação para engajamento,3,5,5,40,I,bottom,0.07,0.52,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+atividades de trabalho em equipe,5,1,1,40,I,bottom,0.11,0.22,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+o que é o gympass,5,1,1,40,"I, N",top,0.06,0.19,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,2,0,0.17
+não estou feliz no meu trabalho,7,1,1,40,I,bottom,0.01,0.16,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+como controlar o estresse emocional,19,2,2,40,I,top,0.05,0.77,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,1,0,0.06
+como melhorar meu desempenho profissional,4,2,2,40,I,top,0.05,0.35,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,1,0,0.06
+como engajar equipe,11,4,4,40,I,top,0.06,0.65,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0.05
+gympass telefone de contato,5,1,1,40,I,top,0.17,0.19,https://wellhub.com/pt-br/companies/,2,0,0.48
+gympass novo hamburgo,5,1,1,40,"L, N",top,0.17,0.28,https://wellhub.com/pt-br/employees/,2,0,0.48
+gympass novo hamburgo,5,1,1,40,"L, N",top,0.17,0.28,https://wellhub.com/pt-br/search/,0,0,0
+ecofit gympass,8,1,1,40,"L, C",bottom,0.27,0.27,https://wellhub.com/pt-br/employees/,0,0,0
+peralta fitness gympass,6,1,,40,"L, C",bottom,0.1,0.11,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0
+valor de repasse gympass,5,1,1,40,I,bottom,0,0.03,https://wellhub.com/pt-br/companies/,0,0,0
+escala de estresse no trabalho baixar,5,1,,40,I,bottom,0.19,0.14,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+bodytech gympass plano,9,1,,40,I,top,0.07,0.23,https://wellhub.com/pt-br/employees/,2,0,0.2
+gympass foz do iguaçu,15,1,1,40,I,top,0.13,0.25,https://wellhub.com/pt-br/employees/,2,0,0.37
+slide sobre saúde mental no trabalho,6,1,,40,I,top,0.19,0.11,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,2,0,0.54
+teste mbi burnout,7,1,1,40,I,bottom,0.01,0.22,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+doenças psicologicas no trabalho,17,2,2,40,I,local_pack,0.13,0.14,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+baixar app gympass,8,1,1,40,I,top,0.16,0.19,https://wellhub.com/pt-br/companies/,2,0,0.45
+benefícios de emprego,9,4,4,40,I,bottom,0,0.04,https://wellhub.com/pt-br/companies/,0,0,0
+apresentação para equipe de trabalho,6,2,2,40,I,top,0.07,0.17,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,1,0,0.08
+teste burnout,8,1,1,40,I,top,0.01,0.23,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,2,0,0.03
+grupo gps tem gympass,11,1,1,40,I,bottom,0,0.03,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0
+como colocar dependente no gympass,6,1,1,40,I,bottom,0.37,0.13,https://wellhub.com/pt-br/employees/,0,0,0
+tonus gym aceita gympass,18,1,1,40,"L, C",bottom,0.12,0.14,https://wellhub.com/pt-br/employees/,0,0,0
+saúde mental no trabalho slide pdf,5,2,2,40,I,top,0.36,0.13,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,1,0,0.43
+ganhar massa em casa,9,1,1,30,I,top,0.06,0.66,https://wellhub.com/pt-br/lp/bem-estar-ilimitado-sempre/,2,0,0.13
+doenças psicossociais no trabalho,17,1,,30,I,top,0.13,0.23,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,2,0,0.28
+como motivar a equipe de vendas,5,6,6,30,I,bottom,0.01,0.6,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+causas de estresse no trabalho,13,3,3,30,I,local_pack,0.03,0.44,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+como se livrar do estresse e ansiedade,17,2,2,30,I,local_pack,0.03,0.65,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+sou muito estressado o que fazer,13,3,,30,I,local_pack,0.06,0.55,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+como melhorar meu desempenho no trabalho,4,4,4,30,I,top,0.05,0.56,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0.03
+diminuir o stress,22,1,1,30,I,bottom,0.05,0.59,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+dinâmica motivacional para empresas,4,4,4,30,I,top,0.12,0.53,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0.07
+como engajar colaboradores,12,6,,30,I,bottom,0.09,0.62,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+terapia para empresas,16,1,,30,I,top,0.37,0.75,https://wellhub.com/pt-br/companies/,2,0,0.79
+gympass planos empresariais,5,1,1,30,I,top,0.46,0.65,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,2,0,0.98
+o que a síndrome de burnout pode causar,29,3,3,30,I,local_pack,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+como lidar com o estresse do dia a dia,14,1,1,30,I,local_pack,0.05,0.51,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+o que fazer para aliviar o cansaço mental,6,1,1,30,I,local_pack,0.01,0.44,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+o que fazer para diminuir o estresse e ansiedade,19,2,2,30,I,local_pack,0.01,0.77,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+quanto custa gympass para pessoa física,6,1,1,30,I,top,0.08,0.22,https://wellhub.com/pt-br/companies/,2,0,0.17
+fadiga mental o que fazer,7,1,1,30,I,bottom,0.01,0.22,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+campanha motivacional para equipe,2,3,,30,I,top,0.23,0.53,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0.15
+como cadastrar no gympass servidor público,4,1,1,30,I,top,0.23,0.15,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,2,0,0.49
+gympass palmas,11,1,1,30,I,bottom,0.15,0.27,https://wellhub.com/pt-br/employees/,0,0,0
+como lidar com situações estressantes no trabalho,15,2,2,30,I,local_pack,0.02,0.35,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+sindiquinze gympass,2,1,,30,I,top,0.26,0.16,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,2,0,0.55
+hammer gympass,6,1,,30,I,top,0.15,0.2,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,2,0,0.32
+studio kore gympass,10,1,1,30,"L, C",top,0.08,0.3,https://wellhub.com/pt-br/employees/,2,0,0.17
+gympassbr,10,1,1,30,I,bottom,0.14,0.39,https://wellhub.com/pt-br/lp/bem-estar-ilimitado-sempre/,0,0,0
+como ter determinação e disciplina,4,1,1,30,I,top,0.03,0.21,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,2,0,0.06
+tecnonutri -- gympass,8,2,,30,I,top,0.28,0.25,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0.25
+gympass curitiba como funciona,5,1,,30,I,top,0.08,0.27,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,2,0,0.17
+sugestão de treinamentos para empresas,4,7,,30,I,bottom,0.3,0.76,https://wellhub.com/pt-br/companies/,0,0,0
+dinâmica motivacional para vendedores,6,2,2,30,I,local_pack,0.17,0.31,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+gympass americana,6,1,1,30,"I, N",top,0.14,0.27,https://wellhub.com/pt-br/search/,0,0,0
+gympass americana,6,1,1,30,"I, N",top,0.14,0.27,https://wellhub.com/pt-br/employees/,2,0,0.3
+palestra saúde mental no trabalho ppt,6,2,,30,I,top,0.2,0.38,https://wellhub.com/pt-br/companies/,0,0,0.18
+uber gympass,11,1,,30,I,bottom,0.16,0.16,https://wellhub.com/pt-br/employees/,0,0,0
+gympass paschoalotto,14,1,1,30,I,bottom,0.13,0.21,https://wellhub.com/pt-br/companies/,0,0,0
+campanha para equipe de vendas,6,3,,30,I,top,0.24,0.56,https://wellhub.com/pt-br/companies/,0,0,0.16
+app gympass como funciona,7,1,1,30,I,bottom,0.11,0.16,https://wellhub.com/pt-br/companies/,0,0,0
+gympass tijuca,4,1,1,30,"L, C",top,0.12,0.21,https://wellhub.com/pt-br/employees/,2,0,0.26
+gympass chile,6,1,1,30,"L, C",bottom,0.41,0.21,https://wellhub.com/pt-br/employees/,0,0,0
+burnout treatment,45,2,2,30,I,top,0,0.1,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+incentivos para colaboradores,3,4,,30,I,local_pack,0.34,0.61,https://wellhub.com/pt-br/companies/,0,0,0
+gympass brf,8,2,2,30,"I, N",top,0.28,0.18,https://wellhub.com/pt-br/employees/,0,0,0.25
+gympass para pessoa juridica,5,1,,30,I,local_pack,0.32,0.39,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0
+dicas de bem-estar no trabalho,7,3,3,30,I,local_pack,0.2,0.3,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+saúde e bem estar nas empresas,9,6,6,30,I,bottom,0.26,0.69,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+saúde e bem-estar nas empresas,9,3,3,30,I,top,0.26,0.69,https://wellhub.com/pt-br/companies/,0,0,0.17
+caars gympass,5,1,1,30,I,bottom,0.27,0.1,https://wellhub.com/pt-br/employees/,0,0,0
+gympass manaus como funciona,9,1,1,30,I,top,0.15,0.22,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,2,0,0.32
+estresse ocupacional e burnout,19,1,1,30,I,bottom,0.04,0.35,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+empresas que cuidam da saúde mental do trabalhador,22,4,4,30,I,bottom,0.43,0.74,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+como funcionam os planos gympass,6,1,1,30,I,top,0.1,0.28,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,2,0,0.21
+pesquisa sobre saúde mental no trabalho,25,2,2,30,I,bottom,0.11,0.33,https://wellhub.com/pt-br/companies/,0,0,0
+como melhorar a saúde mental,18,1,1,20,I,top,0.08,0.34,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,1,0,0.11
+gympass fleury,12,1,1,20,I,top,0.1,0.23,https://wellhub.com/pt-br/employees/,1,0,0.14
+gympass fleury,12,2,2,20,I,bottom,0.1,0.23,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0
+bluefit/gympass,10,1,1,20,I,top,0.13,0.3,https://wellhub.com/pt-br/employees/,1,0,0.18
+esgotamento fisico mental sintomas tratamento,18,2,2,20,"I, N",top,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+exercicios para estresse e ansiedade,10,3,3,20,I,top,0.08,0.44,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0.04
+gympass funciona,6,1,1,20,I,top,0,0.12,https://wellhub.com/pt-br/employees/,1,0,0
+estou muito nervosa e irritada,8,3,3,20,I,local_pack,0,0.26,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+como curar estresse e ansiedade,16,2,2,20,I,local_pack,0.05,0.77,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+psicologia estresse no trabalho,14,1,,20,I,local_pack,0.09,0.43,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+como tratar esgotamento fisico e mental,12,2,2,20,I,local_pack,0.11,0.63,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+desgaste emocional como tratar,13,4,4,20,I,top,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+como controlar crise de ansiedade no trabalho,4,1,,20,I,local_pack,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+gympass planos para empresas,5,1,,20,I,bottom,0.7,0.65,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0
+como engajar pessoas nas empresas,14,3,,20,I,local_pack,0,0.14,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+perfect body gympass,7,1,,20,I,bottom,0,0.08,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0
+gympass academias são paulo,8,1,1,20,"L, C",top,0,0.28,https://wellhub.com/pt-br/companies/,1,0,0
+melhorias para equipe de trabalho,4,3,3,20,I,local_pack,0.07,0.45,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+como prevenir a síndrome de burnout na enfermagem,23,1,1,20,I,local_pack,0,0.12,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+empresas de bem estar corporativo,7,4,4,20,"L, C",top,0.98,0.81,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0.39
+gympass appai academias,10,1,,20,I,top,0.14,0.27,https://wellhub.com/pt-br/employees/,1,0,0.2
+como se livrar do estresse emocional,19,3,,20,I,local_pack,0.05,0.71,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+gestão da remuneração e benefícios,6,1,1,20,I,top,0.39,0.57,https://wellhub.com/pt-br/companies/,1,0,0.55
+slide saúde mental no trabalho,6,1,,20,I,top,0.3,0.21,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,1,0,0.43
+parcerias de academias com empresas,13,1,1,20,I,top,0.26,0.49,https://wellhub.com/pt-br/companies/,1,0,0.37
+gympass alpha fitness salvador,8,1,1,20,I,bottom,0,0.01,https://wellhub.com/pt-br/companies/,0,0,0
+questionário saúde mental no trabalho,3,2,,20,I,top,0.39,0.21,https://wellhub.com/pt-br/companies/,0,0,0.23
+gympass plano silver,7,1,1,20,"I, N",local_pack,0.13,0.19,https://wellhub.com/pt-br/employees/,0,0,0
+gympass plano silver,7,1,1,20,"I, N",local_pack,0.13,0.19,https://wellhub.com/pt-br/plans-pricing/,0,0,0
+ações de rh para engajamento,4,3,,20,I,local_pack,0.53,0.77,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+estou sendo pressionado no trabalho,8,1,1,20,I,bottom,0,0.09,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+suporte gympass,9,1,1,20,"I, N",bottom,0.15,0.05,https://wellhub.com/pt-br/companies/,0,0,0
+gympass buenos aires,6,1,1,20,"L, N",top,0,0.17,https://wellhub.com/es-ar/companies/,1,0,0
+gympass buenos aires,6,1,1,20,"L, N",top,0,0.17,https://wellhub.com/es-ar/plans-pricing/,0,0,0
+como gerenciar emoções no ambiente de trabalho,4,1,1,20,I,bottom,0,0.31,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+gympass caars,5,1,1,20,I,bottom,0.31,0.25,https://wellhub.com/pt-br/employees/,0,0,0
+gympass recreio,7,1,1,20,"L, C",top,0.14,0.3,https://wellhub.com/pt-br/employees/,1,0,0.2
+benefícios mais valorizados pelos colaboradores,9,4,4,20,I,local_pack,0.62,0.56,https://wellhub.com/pt-br/companies/,0,0,0
+ações para cuidar da saúde mental do trabalhador redação,6,1,,20,I,top,0,0.1,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,1,0,0
+gympass digital plan,5,1,1,20,I,top,0,0.33,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,1,0,0
+o que eu posso melhorar no meu trabalho,4,4,4,20,I,local_pack,0.23,0.16,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+quais são as academias parceiras do gympass,9,1,1,20,I,local_pack,0.12,0.18,https://wellhub.com/pt-br/employees/,0,0,0
+the way out of burnout,22,1,,20,I,bottom,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+palestra estresse,7,2,2,20,I,top,0.11,0.17,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0.07
+gympass belém,9,1,1,20,I,bottom,0,0.09,https://wellhub.com/pt-br/employees/,0,0,0
+psicológico abalado no trabalho,5,1,1,20,I,bottom,0.17,0.24,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+o que ajuda a aliviar o estresse,19,1,1,20,I,top,0.01,0.28,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,1,0,0.01
+gympass academias são bernardo do campo,6,1,1,20,"L, C",top,0,0.2,https://wellhub.com/pt-br/companies/,1,0,0
+academia gympass são gonçalo,9,1,1,20,I,bottom,0,0.14,https://wellhub.com/pt-br/employees/,0,0,0
+vivo valoriza empresas gympass,6,2,2,20,I,top,0.29,0.32,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0.17
+gympass santa cruz do sul,6,1,1,20,I,top,0.14,0.23,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,1,0,0.2
+gympass itaipuaçu,7,1,1,20,"L, C",bottom,0.09,0.17,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0
+gympass rio grande rs,6,1,,20,I,bottom,0,0.14,https://wellhub.com/pt-br/employees/,0,0,0
+playtennis gympass,10,1,,20,I,top,0,0.12,https://wellhub.com/pt-br/employees/,1,0,0
+gympass validar passe,5,1,1,10,I,bottom,0,0,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0
+como motivar equipe de venda,5,5,5,10,I,bottom,0,0.43,https://wellhub.com/pt-br/companies/,0,0,0
+como incentivar e motivar uma equipe,7,2,2,10,I,top,0,0,https://wellhub.com/pt-br/companies/,0,0,0
+tratamento da sindrome de burnout,27,1,,10,I,local_pack,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+como administrar conflitos na equipe,5,2,2,10,I,local_pack,0,0.39,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+integração entre equipes de trabalho,4,3,3,10,I,top,0.05,0.43,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0.01
+como evitar o estresse,16,1,1,10,I,bottom,0.01,0.42,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+gympass tivit,17,1,2,10,I,top,0,0.28,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0
+promoção centrum gympass,5,1,1,10,I,top,0,0,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0
+livro sindrome de burnout download,7,1,1,10,I,bottom,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+como manter uma equipe motivada,6,3,3,10,I,local_pack,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+como acabar com o estresse do dia a dia,17,1,1,10,I,local_pack,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+como organizar uma equipe de trabalho,4,6,,10,I,bottom,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+dinâmica de grupo sobre trabalho em equipe,6,4,4,10,I,top,0.1,0.24,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0.02
+ações motivacionais no trabalho,9,2,,10,I,local_pack,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+campanhas de saúde nas empresas,3,5,5,10,I,bottom,0.41,0.3,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+programas de motivação nas empresas,4,2,2,10,I,top,0,1,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+como melhorar o desempenho da equipe,4,6,6,10,I,bottom,0,0.62,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+sindrome de burnout livro pdf,15,1,1,10,C,bottom,0,0.33,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+como reconhecer quando o estresse acontece,15,2,2,10,I,top,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+como fazer uma reunião motivacional,7,4,4,10,I,local_pack,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+ginastica laboral em empresas,3,3,3,10,I,top,0.27,0.35,https://wellhub.com/pt-br/companies/,0,0,0.06
+gympass desconto universitario,7,1,1,10,I,local_pack,0,0,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0
+quais são os beneficios que uma empresa pode oferecer,4,3,3,10,I,top,0,0,https://wellhub.com/pt-br/lp/b2b-conheca-efeito-wellhub/,0,0,0
+quais são os beneficios que uma empresa pode oferecer,4,5,5,10,I,bottom,0,0,https://wellhub.com/pt-br/companies/,0,0,0
+gympass vli,17,1,,10,I,bottom,0.12,0.21,https://wellhub.com/pt-br/lp/gympass-beneficio-bemestar-corporativo/,0,0,0
+sou muito estressada o que devo fazer,17,2,,10,I,top,0,0.86,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+ações para motivar os colaboradores,8,2,,10,I,bottom,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+ideias para reuniao motivacional,7,2,2,10,I,top,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+sintomas stress no trabalho,24,1,,10,I,local_pack,0,0.33,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+pesquisa sobre estresse no ambiente de trabalho,18,1,,10,I,top,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+diminuir estresse no trabalho,19,1,,10,I,bottom,0,1,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+como curar o stress e ansiedade,13,4,4,10,I,local_pack,0,1,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+como se livrar do estresse no trabalho,19,1,1,10,I,local_pack,0,0.56,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+nivel de estresse no trabalho,25,2,2,10,I,top,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+consequencias do stress no trabalho,12,1,1,10,I,local_pack,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+programa de combate ao estresse no trabalho,20,2,2,10,I,local_pack,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+como tratar o stress emocional,16,1,1,10,I,local_pack,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+tratamento de estresse no trabalho,17,1,1,10,I,local_pack,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+formas de amenizar o estresse no ambiente organizacional,3,1,,10,I,local_pack,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+como motivar seus funcionarios na empresa,11,2,,10,I,top,0,0,https://wellhub.com/pt-br/companies/,0,0,0
+o que as grandes empresas fazem para motivar seus funcionarios,4,3,3,10,I,local_pack,0.09,0.86,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+brincadeiras para motivar a equipe de vendas,5,4,4,10,I,top,0,1,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+combate stress e ansiedade,15,3,3,10,I,local_pack,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+reduzir stress e ansiedade,15,2,2,10,I,local_pack,0,0.79,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+dicas de motivação no trabalho,7,1,,10,I,top,0,0.48,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+como melhorar sua equipe de trabalho,4,3,3,10,"I, N",local_pack,0.06,0.86,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+motivação de uma equipe,7,7,7,10,I,bottom,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+como manter a equipe de vendas motivada,5,4,4,10,I,top,0,0.28,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+wellness academia brasilandia,15,1,1,10,"I, N",bottom,0,0,https://wellhub.com/pt-br/lp/bem-estar-ilimitado-sempre/,0,0,0
+dinâmicas de grupo para treinamento motivacional,5,2,2,10,I,top,0.11,0.26,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0.03
+gincanas motivacionais de vendas,6,1,1,10,I,bottom,0.19,0.3,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+dinamica de grupo motivação de equipe,5,1,1,10,I,local_pack,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+gincanas motivacionais para vendas,6,3,3,10,I,top,0.16,0.54,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0.04
+dinamica de grupo para motivar a equipe,5,3,3,10,I,bottom,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+sintomas do esgotamento,16,1,1,10,I,top,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+coisas para desestressar a mente,19,1,1,10,I,bottom,0.02,0.39,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+allya gympass,9,1,1,10,"I, N",bottom,0,0.56,https://wellhub.com/pt-br/employees/,0,0,0
+ações engajamento equipe,4,1,1,10,I,local_pack,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout/,0,0,0
+programa bem estar empresa,4,5,5,10,I,bottom,0,0,https://wellhub.com/pt-br/companies/,0,0,0
+como curar a depressão e ansiedade naturalmente,9,3,3,10,I,local_pack,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+corporate health and wellbeing,31,3,3,10,I,top,0,0,https://wellhub.com/pt-br/companies/,0,0,0
+sindrome de burnout sintomas de exaustão emocional,33,1,1,10,I,bottom,0,0,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+atendimento psicológico empresarial,6,1,,10,I,local_pack,0,0,https://wellhub.com/pt-br/companies/,0,0,0
+wellbeing at work initiatives,25,3,3,10,I,top,0,0,https://wellhub.com/pt-br/companies/,0,0,0
+empresas que visam o bem estar do funcionario,4,3,3,10,I,local_pack,0,0.5,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+benefits platforms,10,3,3,10,I,top,0,0,https://wellhub.com/pt-br/companies/,0,0,0
+fadiga mental e físico tratamento,6,2,2,10,C,local_pack,0,1,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+como motivar um funcionário desmotivado,4,2,,10,I,local_pack,0,0.36,https://wellhub.com/pt-br/lp/plano-de-combate-ao-burnout-checkbox/,0,0,0
+`;
+
+        const telavitaData = `Palavra-chave,Dificuldade,Posição,Posição anterior,Volume de pesquisa,Intenção de pesquisa,Bloquear,CPC,Concorrência,URL,Tráfego,Partilha de tráfego,Custo de tráfego
+telavita,80,1,,22200,"L, N",top,0.01,0.21,https://www.telavita.com.br/,1578,94.66,15.78
+psicologo bradesco saude,48,3,,1300,I,top,0,0,https://app.telavita.com.br/criar-conta/convenio,28,1.68,0
+psiquiatra cassi,11,1,,260,I,top,0,0,https://conteudo.telavita.com.br/cassi,18,01.08,0
+psicólogo online bradesco,4,1,,170,I,top,0,0,https://app.telavita.com.br/criar-conta/convenio,12,0.72,0
+psiquiatra que atende bradesco sp,4,1,,170,"L, C",top,0,0,https://app.telavita.com.br/criar-conta/convenio,12,0.72,0
+telavita psicologia,13,1,1,170,"L, N",top,0.05,0.7,https://www.telavita.com.br/,12,0.72,0.6
+vita psicologia,12,1,1,50,"L, N",top,0.11,0.2,https://www.telavita.com.br/,3,0.18,0.39
+psiquiatra bradesco saude rj,10,2,2,70,"L, C",top,0,0,https://app.telavita.com.br/criar-conta/convenio,2,0.12,0
+psicologo que atende bradesco saude sp,11,1,,20,"L, C",top,0.2,0.7,https://conteudo.telavita.com.br/bradesco-seguros,1,0.06,0.28
+psiquiatra jundiaí bradesco,10,2,,40,"L, C",top,0.21,0.61,https://app.telavita.com.br/criar-conta/convenio,1,0.06,0.25
+psicologo bradesco saude sp,11,1,,10,I,top,0,0,https://app.telavita.com.br/criar-conta/convenio,0,0,0
+consulta medica bradesco saude,13,1,,10,"I, N",top,0,0.21,https://app.telavita.com.br/criar-conta/convenio,0,0,0
+psiquiatra bradesco rj,11,5,5,50,"L, C",bottom,0,0,https://conteudo.telavita.com.br/saude-mental,0,0,0
+psicologa bradesco saude rj,11,1,,40,I,bottom,0,0,https://app.telavita.com.br/criar-conta/convenio,0,0,0
+psicologo osasco convenio bradesco,3,1,1,10,I,bottom,0,0,https://conteudo.telavita.com.br/saude-mental,0,0,0
+teleconsulta cassi,9,1,1,90,I,bottom,0,0,https://app.telavita.com.br/criar-conta/convenio,0,0,0
+quais os treinamentos da nr-1,13,3,3,10,I,bottom,0.09,0.31,https://conteudo.telavita.com.br/nr1,0,0,0
+vita psicologia,12,1,1,50,"L, N",top,0.11,0.2,https://conteudo.telavita.com.br/telavita-empresas,0,0,0
+vita psicologia,12,1,1,50,"L, N",top,0.11,0.2,https://app.telavita.com.br/psicologia-online/encontre-seu-psicologo/,0,0,0
+vita psicologia,12,1,1,50,"L, N",top,0.11,0.2,https://conteudo.telavita.com.br/planos-de-saude,0,0,0
+vita psicologia,12,1,1,50,"L, N",top,0.11,0.2,https://app.telavita.com.br/criar-conta,0,0,0
+telavita trabalhe conosco,8,1,,20,I,bottom,0.02,0.12,https://www.telavita.com.br/,0,0,0
+`;
+
+        const zenklubData = `Palavra-chave,Dificuldade,Posição,Posição anterior,Volume de pesquisa,Intenção de pesquisa,Bloquear,CPC,Concorrência,URL,Tráfego,Partilha de tráfego,Custo de tráfego
+app terapia,16,3,,90,I,top,0.28,0.64,https://zenklub.com.br/psicologos/camila-1733669028420/,1,1.33,0.55
+psicologia para empresas,5,1,1,90,I,top,0.77,0.8,https://zenklub.com.br/site/empresas-oferta,6,8,4.93
+programa de bem estar nas empresas,4,2,2,90,I,top,0.81,0.66,https://zenklub.com.br/site/empresas-oferta,2,2.67,2.2
+programa de bem-estar nas empresas,4,2,2,90,I,top,0.81,0.66,https://zenklub.com.br/site/empresas-oferta,2,2.67,2.2
+programa de bem estar no trabalho,5,1,1,90,I,top,0.31,0.61,https://zenklub.com.br/site/empresas-oferta,6,8,1.98
+programa de bem-estar no trabalho,5,1,1,90,I,top,0.31,0.61,https://zenklub.com.br/site/empresas-oferta,6,8,1.98
+artigo sobre saúde mental no trabalho,6,1,1,90,I,top,0.15,0.3,https://zenklub.com.br/site/empresas-oferta,6,8,0.96
+grupo terapeutico em saude mental,5,1,1,70,I,bottom,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+zenklub como funciona,5,1,1,70,I,local_pack,0.31,0.21,https://zenklub.com.br/site/empresas-oferta,0,0,0
+atividades para cuidar da saúde mental,9,1,1,70,I,top,0.15,0.11,https://zenklub.com.br/site/janeiro-branco/2025,4,5.33,0.75
+saúde mental campanha,19,1,1,70,I,bottom,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+nomes para projetos de saúde mental,5,1,1,70,I,bottom,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+estresse do trabalho,20,1,1,50,I,local_pack,0.06,0.13,https://zenklub.com.br/site/empresas-oferta,0,0,0
+consultoria organizacional psicologia,3,1,1,50,I,top,0.22,0.6,https://zenklub.com.br/site/empresas-oferta,3,4,0.78
+qualidade de vida empresa,17,1,1,50,I,local_pack,0.2,0.14,https://zenklub.com.br/site/empresas-oferta,0,0,0
+quais hábitos contribuem para nossa saúde mental,3,1,1,50,I,bottom,0,0.02,https://zenklub.com.br/site/empresas-oferta,0,0,0
+como promover o bem estar no trabalho,7,1,1,50,I,top,0.12,0.36,https://zenklub.com.br/site/empresas-oferta,3,4,0.43
+como promover o bem-estar no trabalho,7,1,1,50,I,local_pack,0.12,0.36,https://zenklub.com.br/site/empresas-oferta,0,0,0
+como melhorar o bem-estar no ambiente laboral,9,1,1,50,I,local_pack,0.14,0.2,https://zenklub.com.br/site/empresas-oferta,0,0,0
+zenklub telefone,12,1,1,50,"L, N",top,0.49,0.27,https://zenklub.com.br/site/enterprise-oferta,3,4,1.74
+projeto de atendimento psicológico em empresas,11,4,1,50,I,bottom,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+como promover a saúde mental,18,1,1,50,I,local_pack,0.01,0.14,https://zenklub.com.br/site/empresas-oferta,0,0,0
+riscos psicossociais e saúde mental do trabalhador,18,3,3,40,I,top,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+zenklub o que é,10,1,1,40,"L, N",top,0.2,0.16,https://zenklub.com.br/site/empresas-oferta,2,2.67,0.57
+zenklub login,8,1,,40,"I, N",top,0.38,0.04,https://zenklub.com.br/psicologos/camila-1733669028420/,2,2.67,01.08
+doenças psicologicas no trabalho,17,1,1,40,I,local_pack,0.13,0.14,https://zenklub.com.br/site/empresas-oferta,0,0,0
+psicologia liderança e comportamento nas organizações,6,1,1,40,I,top,0.28,0.56,https://zenklub.com.br/site/empresas-oferta,2,2.67,0.8
+zenklub app,12,1,1,40,I,top,0.26,0.28,https://zenklub.com.br/site/enterprise-oferta,2,2.67,0.74
+saúde mental no trabalho slide pdf,5,1,1,40,I,top,0.36,0.13,https://zenklub.com.br/site/empresas-oferta,2,2.67,01.02
+clinica para tratamento de depressão gratuita,6,4,4,30,"L, C",top,0.17,0.54,https://zenklub.com.br/site/janeiro-branco/2025,0,0,0.1
+saude nas empresas,4,1,1,30,I,local_pack,0.29,0.3,https://zenklub.com.br/site/empresas-oferta,0,0,0
+depressão no trabalho o que fazer,11,1,1,30,I,local_pack,0.1,0.37,https://zenklub.com.br/site/empresas-oferta,0,0,0
+psicologo para empresas,12,1,,30,I,local_pack,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+terapia para empresas,16,3,1,30,I,top,0.37,0.75,https://zenklub.com.br/site/empresas-oferta,0,0,0.24
+como podemos melhorar nossa saúde física mental e social,16,1,1,30,I,local_pack,0,0.02,https://zenklub.com.br/site/empresas-oferta,0,0,0
+palestra saúde mental no trabalho ppt,6,1,1,30,I,top,0.2,0.38,https://zenklub.com.br/site/empresas-oferta,2,2.67,0.43
+dasa psicologia,15,1,,30,I,top,0.09,0.44,https://zenklub.com.br/site/empresas-oferta,2,2.67,0.19
+qualidade de vida emocional,8,1,1,30,I,bottom,0,0.1,https://zenklub.com.br/site/empresas-oferta,0,0,0
+liderança psicologia organizacional,8,1,1,30,I,bottom,0.17,0.36,https://zenklub.com.br/site/empresas-oferta,0,0,0
+legislação internação psiquiátrica,29,1,1,30,I,bottom,0,0,https://zenklub.com.br/site/epidesaudemental,0,0,0
+palestra sobre emoções,9,5,5,30,"I, N",bottom,0,0.01,https://zenklub.com.br/site/janeiro-branco/2025,0,0,0
+mind betterme world trauma infancia,7,1,1,30,I,top,0,0.04,https://zenklub.com.br/site/janeiro-branco/2025,2,2.67,0
+paciente psiquiátrico direitos,15,1,1,30,I,bottom,0,0,https://zenklub.com.br/site/epidesaudemental,0,0,0
+como funciona o zenklub,10,1,,30,I,top,0.25,0.12,https://zenklub.com.br/site/enterprise-oferta,2,2.67,0.53
+dicas de bem estar no trabalho,7,1,1,30,I,bottom,0.2,0.3,https://zenklub.com.br/site/empresas-oferta,0,0,0
+dicas de bem-estar no trabalho,7,1,1,30,I,local_pack,0.2,0.3,https://zenklub.com.br/site/empresas-oferta,0,0,0
+saúde e bem estar nas empresas,9,1,1,30,I,top,0.26,0.69,https://zenklub.com.br/site/empresas-oferta,2,2.67,0.55
+saúde e bem-estar nas empresas,9,2,2,30,I,top,0.26,0.69,https://zenklub.com.br/site/empresas-oferta,0,0,0.23
+empresas que cuidam da saúde mental do trabalhador,22,1,1,30,I,top,0.43,0.74,https://zenklub.com.br/site/empresas-oferta,2,2.67,0.92
+pesquisa sobre saúde mental no trabalho,25,1,1,30,I,top,0.11,0.33,https://zenklub.com.br/site/empresas-oferta,2,2.67,0.23
+psicólogo de recursos humanos,3,1,1,20,"L, C",local_pack,0.4,0.2,https://zenklub.com.br/site/empresas-oferta,0,0,0
+diagnóstico organizacional psicologia,5,1,1,20,I,top,0.25,0.15,https://zenklub.com.br/site/empresas-oferta,1,1.33,0.36
+empresas de bem estar corporativo,7,1,1,20,"L, C",top,0.98,0.81,https://zenklub.com.br/site/empresas-oferta,1,1.33,1.39
+projeto de saúde mental no trabalho,11,1,1,20,I,local_pack,0.12,0.69,https://zenklub.com.br/site/empresas-oferta,0,0,0
+nova nr-1 comentada pdf,19,1,1,20,I,bottom,0.17,0.11,https://zenklub.com.br/site/epidesaudemental,0,0,0
+questionário saúde mental no trabalho,3,4,1,20,I,bottom,0.39,0.21,https://zenklub.com.br/site/empresas-oferta,0,0,0
+psicologia do trabalho e gestão de recursos humanos estudos contemporâneos,5,1,1,20,I,top,0,0.16,https://zenklub.com.br/site/empresas-oferta,1,1.33,0
+lei antimanicomial pdf,29,1,1,20,I,top,0,0.07,https://zenklub.com.br/site/epidesaudemental,1,1.33,0
+bem estar emocional no trabalho,3,1,1,20,I,top,0.27,0.33,https://zenklub.com.br/site/empresas-oferta,1,1.33,0.38
+plano mensal zenklub,8,1,1,20,I,bottom,0,0.05,https://zenklub.com.br/site/enterprise-oferta,0,0,0
+como se cadastrar no zenklub,4,1,1,20,I,top,0.25,0.1,https://zenklub.com.br/site/enterprise-oferta,1,1.33,0.36
+impactos do home office na saúde mental,13,1,1,20,I,local_pack,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+ações de saúde mental,17,1,1,20,I,top,0,0,https://zenklub.com.br/site/empresas-oferta,1,1.33,0
+programa de bem estar corporativo,4,1,1,20,I,top,1.55,0.62,https://zenklub.com.br/site/empresas-oferta,1,1.33,2.2
+programa de bem-estar corporativo,4,1,1,20,I,top,1.55,0.62,https://zenklub.com.br/site/empresas-oferta,1,1.33,2.2
+saude e segurança no trabalho nas empresas,22,6,6,10,I,bottom,0,0.14,https://zenklub.com.br/site/empresas-oferta,0,0,0
+depressão no trabalho tratamento,17,1,1,10,I,top,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+saude emocional e qualidade de vida,5,1,1,10,I,top,0.06,0.51,https://zenklub.com.br/site/empresas-oferta,0,0,0.04
+psicologo consultoria,5,1,1,10,I,bottom,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+palestra sobre saúde mental,6,1,1,10,I,local_pack,0.16,0.37,https://zenklub.com.br/site/janeiro-branco/2025,0,0,0
+atividades para grupos de saude mental,4,1,1,10,I,top,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+psicologia organizacional online,5,1,1,10,I,top,0.76,0.79,https://zenklub.com.br/site/empresas-oferta,0,0,0.54
+palestra depressão e ansiedade,9,1,1,10,I,top,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+empresas de saude ocupacional em sp,7,1,1,10,I,bottom,0,1,https://zenklub.com.br/site/empresas-oferta,0,0,0
+psicanalise nas empresas,4,1,1,10,I,bottom,0,0.26,https://zenklub.com.br/site/empresas-oferta,0,0,0
+especializado em saude corporativa,2,2,2,10,I,top,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+pesquisa sobre estresse no ambiente de trabalho,18,4,,10,I,top,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+programa de combate ao estresse no trabalho,20,1,1,10,I,local_pack,0,0,https://zenklub.com.br/site/janeiro-branco/2025,0,0,0
+bem estar fisico social e mental,14,1,1,10,I,bottom,0,0.11,https://zenklub.com.br/site/empresas-oferta,0,0,0
+depressão e o trabalho,4,1,1,10,I,local_pack,0,0.16,https://zenklub.com.br/site/empresas-oferta,0,0,0
+ambulatorio para empresas,2,1,1,10,I,local_pack,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+saúde mental texto,35,2,2,10,I,top,0,0,https://zenklub.com.br/site/janeiro-branco/2025,0,0,0
+síndrome de burnout profissionais saude,22,1,1,10,I,top,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+programa bem estar empresa,4,1,1,10,I,top,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+testes psicológicos mais usados nas empresas,4,1,1,10,I,top,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+atendimento psicológico empresarial,6,5,1,10,I,bottom,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+empresas que visam o bem estar do funcionario,4,1,1,10,I,local_pack,0,0.5,https://zenklub.com.br/site/empresas-oferta,0,0,0
+intervenção psicologia organizacional,5,1,1,10,I,top,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+como implantar um programa de qualidade de vida no trabalho,4,3,3,10,I,top,0,0.93,https://zenklub.com.br/site/empresas-oferta,0,0,0
+saúde mental e sucesso profissional,4,1,1,10,I,local_pack,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+o que fazer para melhorar a saúde mental na pandemia,19,2,,10,I,local_pack,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+mediação de conflitos psicologia organizacional,8,1,1,10,I,local_pack,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+empresas bem estar dos adolescentes,5,1,1,10,I,top,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+como montar um programa de qualidade de vida no trabalho,4,2,,10,I,bottom,0,0.33,https://zenklub.com.br/site/empresas-oferta,0,0,0
+ações de bem estar no trabalho,7,1,1,10,I,top,0.1,0.62,https://zenklub.com.br/site/empresas-oferta,0,0,0.07
+ações de bem-estar no trabalho,7,1,1,10,I,local_pack,0.1,0.62,https://zenklub.com.br/site/empresas-oferta,0,0,0
+dicas de saúde e bem-estar no trabalho,8,1,1,10,I,top,0.17,0.38,https://zenklub.com.br/site/empresas-oferta,0,0,0.12
+teste para avaliar estresse no trabalho,4,2,2,10,I,top,0,0.07,https://zenklub.com.br/site/empresas-oferta,0,0,0
+proposta de intervenção psicologia organizacional,6,1,1,10,I,local_pack,0,0.05,https://zenklub.com.br/site/empresas-oferta,0,0,0
+plano de ação psicologia organizacional,5,1,1,10,I,top,0,0.06,https://zenklub.com.br/site/empresas-oferta,0,0,0
+intervenções psicológicas diante do assédio moral no trabalho,6,1,1,10,I,top,0,0.14,https://zenklub.com.br/site/empresas-oferta,0,0,0
+síndrome de burnout no ambiente de trabalho tcc,4,1,1,10,I,bottom,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+nova lei saúde mental 2019,29,1,1,10,I,top,0,0.02,https://zenklub.com.br/site/epidesaudemental,0,0,0
+vittude corporate,10,1,1,10,"L, C",bottom,0.62,0.64,https://zenklub.com.br/site/empresas-oferta,0,0,0
+empresas criam ações para reduzir estresse dos funcionários,4,1,1,10,I,top,0,0.43,https://zenklub.com.br/site/empresas-oferta,0,0,0
+motivação no trabalho psicologia organizacional,5,1,1,10,I,top,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+proposta de atendimento psicológico,3,1,1,10,I,top,0,0.21,https://zenklub.com.br/site/empresas-oferta,0,0,0
+mental health platform empresa,7,1,1,10,I,top,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+mental health for managers,18,2,2,10,I,top,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+workplace mental health training for managers,17,4,4,10,I,top,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+lei antimanicomial artigo,24,1,1,10,I,top,0,0,https://zenklub.com.br/site/epidesaudemental,0,0,0
+clínicas do trabalho psicologia,5,1,1,10,I,top,0.39,0.34,https://zenklub.com.br/site/empresas-oferta,0,0,0.28
+how to promote well being in the workplace,36,3,3,10,I,top,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+how to promote well-being in the workplace,35,3,3,10,I,top,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+wellness mental health,12,1,1,10,I,bottom,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+estresse pós-traumático no trabalho,10,1,1,10,I,top,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+saúde mental dos colaboradores em ambientes organizacionais,3,1,1,10,I,top,0.16,0.61,https://zenklub.com.br/site/empresas-oferta,0,0,0.11
+avaliação psicossocial para empresas,2,1,1,10,I,top,0.18,0.65,https://zenklub.com.br/site/empresas-oferta,0,0,0.13
+hht//zenklub.com.br/empresas,20,1,1,10,I,top,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0
+hht zenklub com br empresas,20,1,1,10,I,top,0,0,https://zenklub.com.br/site/empresas-oferta,0,0,0`;
+
+        const conexaData = `Palavra-chave,Dificuldade,Posição,Posição anterior,Volume de pesquisa,Intenção de pesquisa,Bloquear,CPC,Concorrência,URL,Tráfego,Partilha de tráfego,Custo de tráfego
+psicologo amil,8,1,,590,"L, C",top,"0,18","0,43",https://site.conexasaude.com.br/site/psicologia-viva-agora-e-conexa,41,"64,06","7,55"
+psicologia 24 horas,9,3,,390,I,bottom,"0,31","0,61",https://site.conexasaude.com.br/site/psicologia-viva-agora-e-conexa,0,0,0
+consultas medicas online,16,5,,260,I,bottom,"0,29","0,91",https://parcerias.conexasaude.com.br/conexa-pacientes/,0,0,0
+consulta medica gratuita,7,1,,170,"L, C",top,0,0,https://www.conexasaude.com.br/pacientes/,12,"18,75",0
+neuropediatra online grátis,4,1,,170,I,bottom,"0,19","0,64",https://www.conexasaude.com.br/pacientes/,0,0,0
+consulta online porto alegre,5,5,,110,I,bottom,"0,27","0,85",https://www.conexasaude.com.br/pacientes/,0,0,0
+conecta psicologia,7,1,,70,"L, C",top,"0,18","0,21",https://site.conexasaude.com.br/site/psicologia-viva-agora-e-conexa,4,"6,25","0,9"
+psicologia viva é bom,12,1,,70,I,top,0,0,https://site.conexasaude.com.br/site/psicologia-viva-agora-e-conexa,4,"6,25",0
+psicologia viva porto seguro,16,1,,50,"I, N",top,0,0,https://site.conexasaude.com.br/site/psicologia-viva-agora-e-conexa,3,"4,69",0
+como falar com um médico online grátis,8,5,5,50,I,bottom,"0,14","0,91",https://www.conexasaude.com.br/pacientes/,0,0,0
+contato psicologia viva,9,1,,50,I,bottom,0,0,https://site.conexasaude.com.br/site/psicologia-viva-agora-e-conexa,0,0,0
+conexa saúde unimed app,16,1,1,50,I,bottom,0,"0,13",https://paciente.conexasaude.com.br/,0,0,0
+atestado online e válido,7,3,3,30,I,top,"0,17","0,46",https://parcerias.conexasaude.com.br/conexa-pacientes/,0,0,"0,11"
+ginecologistas online gratis,6,7,7,20,I,bottom,"0,17","0,83",https://parcerias.conexasaude.com.br/conexa-pacientes/,0,0,0
+psicologo que atende bradesco saude sp,11,6,,20,"L, C",bottom,"0,2","0,7",https://site.conexasaude.com.br/site/psicologia-viva-agora-e-conexa,0,0,0
+unimed rio consulta online,15,1,1,20,I,bottom,0,"0,14",https://parcerias.conexasaude.com.br/conexa-pacientes/,0,0,0
+psicologia viva consultório online,10,1,,20,"I, N",bottom,0,0,https://site.conexasaude.com.br/site/psicologia-viva-agora-e-conexa,0,0,0
+care psicologia,5,2,2,20,"L, C",top,0,0,https://site.conexasaude.com.br/site/psicologia-viva-agora-e-conexa,0,0,0
+telemedicina amil psiquiatra,9,2,,20,I,top,0,0,https://parcerias.conexasaude.com.br/conexa-pacientes/,0,0,0
+médico online responde na hora,16,5,5,10,I,bottom,0,0,https://www.conexasaude.com.br/pacientes/,0,0,0
+consulta online free,11,3,3,10,I,top,0,0,https://parcerias.conexasaude.com.br/conexa-pacientes/,0,0,0
+depressao auto ajuda,14,4,4,10,I,bottom,0,0,https://site.conexasaude.com.br/site/psicologia-viva-agora-e-conexa,0,0,0
+medicos online gratis 24 horas chat,13,3,3,10,I,bottom,"0,15","0,78",https://www.conexasaude.com.br/pacientes/,0,0,0
+conexa saúde prevent senior,9,1,,10,I,local_pack,0,0,https://www.conexasaude.com.br/pacientes/,0,0,0
+médico online chat gratuito,6,2,2,10,I,top,0,0,https://parcerias.conexasaude.com.br/conexa-pacientes/,0,0,0
+psicologia unimed rio de janeiro,9,2,,10,I,top,0,"0,56",https://site.conexasaude.com.br/site/psicologia-viva-agora-e-conexa,0,0,0
+medico online gratuito whatsapp,10,5,5,10,I,bottom,0,"0,81",https://parcerias.conexasaude.com.br/conexa-pacientes/,0,0,0
+sharecare telemedicina,10,3,,10,"L, N",top,0,"0,86",https://parcerias.conexasaude.com.br/conexa-pacientes/,0,0,0
+teleatendimento unimed-rio,4,1,,10,I,top,0,"0,07",https://parcerias.conexasaude.com.br/conexa-pacientes/,0,0,0
+unimed viva,6,1,,10,I,top,0,0,https://site.conexasaude.com.br/site/psicologia-viva-agora-e-conexa,0,0,0
+psicologia viva unimed rio,10,1,,10,I,top,0,0,https://site.conexasaude.com.br/site/psicologia-viva-agora-e-conexa,0,0,0
+chat médico gratis,7,2,2,10,I,top,"0,15","0,66",https://www.conexasaude.com.br/pacientes/,0,0,"0,05"
+`;
+
+        const orienteMeData = `Palavra-chave,Dificuldade,Posição,Posição anterior,Volume de pesquisa,Intenção de pesquisa,Bloquear,CPC,Concorrência,URL,Tráfego,Partilha de tráfego,Custo de tráfego
+orienteme login,19,1,,320,"I, N",top,0.01,0.16,https://orienteme.com.br/plataforma-gestao-saude-corporativa/,22,84.62,0.23
+orienteme app,11,1,1,30,"I, N",top,0.02,0.36,https://orienteme.com.br/plataforma-gestao-saude-corporativa/,2,7.69,0.04
+projeto de qualidade de vida no trabalho,5,3,3,70,I,top,0.12,0.12,https://orienteme.com.br/plataforma-gestao-saude-corporativa/,1,3.85,0.18
+programa de bem-estar no trabalho,5,4,4,90,I,top,0.31,0.61,https://orienteme.com.br/plataforma-gestao-saude-corporativa/,1,3.85,0.56
+orienteme,13,1,,880,"I, N",bottom,0.01,0.16,https://orienteme.com.br/plataforma-gestao-saude-corporativa/,0,0,0
+psicologo para empresas,12,2,,30,I,local_pack,0,0,https://orienteme.com.br/plataforma-gestao-saude-corporativa/,0,0,0
+psicologia para empresas,5,2,2,90,I,bottom,0.77,0.8,https://orienteme.com.br/plataforma-gestao-saude-corporativa/,0,0,0
+atendimento psicológico empresarial,6,3,3,10,I,local_pack,0,0,https://orienteme.com.br/plataforma-gestao-saude-corporativa/,0,0,0
+qualidade de vida empresa,17,4,4,50,I,bottom,0.2,0.14,https://orienteme.com.br/plataforma-gestao-saude-corporativa/,0,0,0
+programa de bem estar nas empresas,4,5,5,90,I,bottom,0.81,0.66,https://orienteme.com.br/plataforma-gestao-saude-corporativa/,0,0,0
+projeto de atendimento psicológico em empresas,11,3,2,50,I,local_pack,0,0,https://orienteme.com.br/plataforma-gestao-saude-corporativa/,0,0,0
+ações de saúde nas empresas,3,2,2,10,I,local_pack,0,0.39,https://orienteme.com.br/plataforma-gestao-saude-corporativa/,0,0,0
+especialização em qualidade de vida no trabalho,5,5,5,10,I,bottom,0.29,0.78,https://orienteme.com.br/plataforma-gestao-saude-corporativa/,0,0,0
+programa de bem-estar corporativo,4,6,6,20,I,bottom,1.55,0.62,https://orienteme.com.br/plataforma-gestao-saude-corporativa/,0,0,0
+`;
+
+        const rapidocData = `Palavra-chave,Dificuldade,Posição,Posição anterior,Volume de pesquisa,Intenção de pesquisa,Bloquear,CPC,Concorrência,URL,Tráfego,Partilha de tráfego,Custo de tráfego
+o que é telemedicina e como funciona,12,1,,110,I,bottom,0.03,0.2,https://rapidocbrasil.com.br/,0,0,0
+pergunta para ginecologista online,6,6,6,70,I,bottom,0.17,0.73,https://rapidocbrasil.com.br/,0,0,0
+plataforma de atendimento nutricional online,3,3,3,70,I,top,0.26,0.75,https://rapidocbrasil.com.br/,1,14.29,0.4
+médico 24 horas online,13,3,3,70,I,top,0.35,0.93,https://rapidocbrasil.com.br/,1,14.29,0.54
+falar com médico online grátis,8,1,1,70,I,bottom,0.17,0.83,https://rapidocbrasil.com.br/,0,0,0
+como falar com um médico online grátis,8,1,1,50,I,local_pack,0.14,0.91,https://rapidocbrasil.com.br/,0,0,0
+médico online chat,11,7,7,30,I,bottom,0.2,0.7,https://rapidocbrasil.com.br/,0,0,0
+agendar medico online,20,3,3,30,"I, N",top,0.4,0.91,https://rapidocbrasil.com.br/,0,0,0.26
+conversar com médico online,13,1,1,30,I,top,0,0,https://rapidocbrasil.com.br/,2,28.57,0
+doctor call,8,1,1,30,"L, C",bottom,0,0.1,https://rapidocbrasil.com.br/,0,0,0
+falar com médico,7,1,1,20,I,top,0.23,0.65,https://rapidocbrasil.com.br/,1,14.29,0.33
+empresas de telemedicina no brasil,14,2,2,20,I,top,0.31,0.78,https://rapidocbrasil.com.br/,0,0,0.19
+rapidoc brasil,10,1,1,20,"L, N",top,0.24,0.41,https://rapidocbrasil.com.br/,1,14.29,0.34
+i9med digital,9,1,1,20,"L, N",top,0,0,https://rapidocbrasil.com.br/,1,14.29,0
+consulta online free,11,2,2,10,I,top,0,0,https://rapidocbrasil.com.br/,0,0,0
+neurologista online chat gratis,10,3,3,10,I,top,0,0,https://rapidocbrasil.com.br/,0,0,0
+medicos online gratis 24 horas chat,13,2,2,10,I,local_pack,0.15,0.78,https://rapidocbrasil.com.br/,0,0,0
+doutor responde online,12,2,2,10,I,bottom,0,0,https://rapidocbrasil.com.br/,0,0,0
+numero de whatsapp de medicos,6,2,2,10,I,top,0,0.56,https://rapidocbrasil.com.br/,0,0,0
+dr ginecologista online,3,7,7,10,I,bottom,0,0,https://rapidocbrasil.com.br/,0,0,0
+conversar com um medico online,13,2,2,10,I,top,0,0.86,https://rapidocbrasil.com.br/,0,0,0
+dermatologistas online gratis,4,2,2,10,I,top,0.13,0.86,https://rapidocbrasil.com.br/,0,0,0.04
+médico online chat gratuito,6,1,1,10,I,top,0,0,https://rapidocbrasil.com.br/,0,0,0
+telemedicina call center,8,5,5,10,I,bottom,0,0,https://rapidocbrasil.com.br/,0,0,0
+telehealth api,5,1,1,10,I,bottom,0,0,https://rapidocbrasil.com.br/,0,0,0
+telemedicine pricing,28,1,,10,I,bottom,0,0,https://rapidocbrasil.com.br/,0,0,0
+white label telehealth platform,19,3,3,10,I,top,0,0,https://rapidocbrasil.com.br/,0,0,0
+medico online gratuito whatsapp,10,1,1,10,I,top,0,0.81,https://rapidocbrasil.com.br/,0,0,0
+ginecologista obstetra online gratuito,5,2,2,10,I,top,0,0,https://rapidocbrasil.com.br/,0,0,0
+sharecare telemedicina,10,1,,10,"L, N",top,0,0.86,https://rapidocbrasil.com.br/,0,0,0
+quality life franquia,5,2,2,10,I,top,0.35,0.6,https://rapidocbrasil.com.br/,0,0,0.11
+telemedicina recife,4,3,3,10,I,top,0.15,0.84,https://rapidocbrasil.com.br/,0,0,0.03
+doutor online ginecologista,3,4,4,10,I,top,0,0,https://rapidocbrasil.com.br/,0,0,0
+medical web experts,17,2,2,10,I,top,0,0,https://rapidocbrasil.com.br/,0,0,0
+white label telemedicine resellers,15,4,4,10,I,top,0,0,https://rapidocbrasil.com.br/,0,0,0
+telehealth plataforma,4,2,2,10,I,top,0.13,0.67,https://rapidocbrasil.com.br/,0,0,0.04
+telemedicine projects,5,1,1,10,I,top,0,0,https://rapidocbrasil.com.br/,0,0,0
+white-label telemedicine software,24,4,4,10,"I, N",top,0,0,https://rapidocbrasil.com.br/,0,0,0
+teladoc white-label,8,1,,10,I,top,0,0,https://rapidocbrasil.com.br/,0,0,0
+telemedicine saas,7,4,4,10,"I, N",top,0,1,https://rapidocbrasil.com.br/,0,0,0
+top telemedicine companies,42,1,1,10,I,bottom,0,0,https://rapidocbrasil.com.br/,0,0,0
+aplicativo para teleconsulta,8,2,2,10,I,bottom,0.51,0.71,https://rapidocbrasil.com.br/,0,0,0
+chat médico gratis,7,1,1,10,I,top,0.15,0.66,https://rapidocbrasil.com.br/,0,0,0.11
+`;
+
+        const starbemData = `Palavra-chave,Dificuldade,Posição,Posição anterior,Volume de pesquisa,Intenção de pesquisa,Bloquear,CPC,Concorrência,URL,Tráfego,Partilha de tráfego,Custo de tráfego
+o que quer dizer a nr 1,23,3,,20,I,local_pack,0,0.28,https://lp.starbem.app/nova-nr-1-webinar,0,0,0
+atendimento psicológico empresarial,6,4,,10,I,bottom,0,0,https://lp.starbem.app/sa%C3%BAde-mental-no-ambiente-corporativo,0,0,0
+quais os treinamentos da nr-1,13,2,2,10,I,bottom,0.09,0.31,https://lp.starbem.app/nova-nr-1-webinar,0,0,0
+`;
+
+        // ============================================================
+        // FIM DA SEÇÃO DE DADOS CSV
+        // ============================================================
+
+
+        // --- RECALCULANDO CONTAGENS ---
+        const landingPageCountsRecalculated = [
+            { name: 'Wellhub', count: countUniqueUrls(wellhubData) },
+            { name: 'Telavita', count: countUniqueUrls(telavitaData) },
+            { name: 'Zenklub', count: countUniqueUrls(zenklubData) },
+            { name: 'Conexa', count: countUniqueUrls(conexaData) },
+            { name: 'Oriente-me', count: countUniqueUrls(orienteMeData) },
+            { name: 'Rapidoc', count: countUniqueUrls(rapidocData) },
+            { name: 'Starbem', count: countUniqueUrls(starbemData) },
+        ];
+
+        // --- LOG PARA CONFERÊNCIA ---
+        console.log("Contagens Recalculadas de Landing Pages:", landingPageCountsRecalculated);
+
+        // --- DADOS PARA O GRÁFICO ATUALIZADO ---
+        const landingPageChartDataUpdated = {
+            labels: landingPageCountsRecalculated.map(item => item.name),
+            datasets: [{
+                label: 'Nº Estimado de Landing Pages Únicas (Revisado - Dados Fornecidos)',
+                data: landingPageCountsRecalculated.map(item => item.count),
+                backgroundColor: [
+                    'rgba(26, 188, 156, 0.7)', 'rgba(52, 152, 219, 0.7)', 'rgba(155, 89, 182, 0.7)',
+                    'rgba(241, 196, 15, 0.7)', 'rgba(230, 126, 34, 0.7)', 'rgba(46, 204, 113, 0.7)',
+                    'rgba(149, 165, 166, 0.7)'
+                ],
+                borderColor: [
+                     'rgba(26, 188, 156, 1)', 'rgba(52, 152, 219, 1)', 'rgba(155, 89, 182, 1)',
+                     'rgba(241, 196, 15, 1)', 'rgba(230, 126, 34, 1)', 'rgba(46, 204, 113, 1)',
+                     'rgba(149, 165, 166, 1)'
+                ],
+                borderWidth: 1,
+                borderRadius: 5 // Bordas arredondadas nas barras
+            }]
+        };
+
+        // --- CÓDIGO PARA RENDERIZAR O GRÁFICO DE LANDING PAGES ---
+        // Limpa o gráfico antigo se existir
+        let chartStatus = Chart.getChart("landingPageChart");
+        if (chartStatus != undefined) {
+          chartStatus.destroy();
+        }
+
+        const landingPageChartCtxUpdated = document.getElementById('landingPageChart').getContext('2d');
+        const landingPageChartUpdated = new Chart(landingPageChartCtxUpdated, {
+            type: 'bar',
+            data: landingPageChartDataUpdated,
+            options: {
+                indexAxis: 'x',
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Número Estimado de LPs Únicas (Revisado)', font: {size: 14} },
+                        ticks: { stepSize: 1 } // Garante que o eixo Y mostre números inteiros
+                    },
+                    x: {
+                         ticks: { font: {size: 12} }
+                    }
+                },
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: 'Estimativa de Diversidade de Landing Pages por Concorrente (Revisado)',
+                        font: {size: 16}
+                    },
+                     tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleFont: { size: 14 },
+                        bodyFont: { size: 12 },
+                        padding: 10,
+                        cornerRadius: 4,
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) { label = label.split('(')[0].trim() + ': '; } // Limpa o label do dataset
+                                if (context.parsed.y !== null) {
+                                    label += context.parsed.y;
+                                }
+                                return label + ' LPs estimadas';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
